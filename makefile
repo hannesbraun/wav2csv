@@ -2,7 +2,7 @@ all: wav2csv.go go.mod go.sum
 	go build .
 
 clean:
-	rm wav2csv
+	rm -f wav2csv
 	rm -rf dist/
 
 dist: wav2csv.go go.mod go.sum
