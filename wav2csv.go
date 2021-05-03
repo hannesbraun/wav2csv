@@ -23,6 +23,9 @@ func main() {
 	}
 
 	// Wav file reader
+	if *verbose {
+		fmt.Println("Input file:", *inPath)
+	}
 	in, err := os.Open(*inPath)
 	if err != nil {
 		panic(err)
@@ -31,6 +34,9 @@ func main() {
 	reader := wav.NewReader(in)
 
 	// Buffered csv output
+	if *verbose {
+		fmt.Println("Output file:", *outPath)
+	}
 	out, err := os.Create(*outPath)
 	if err != nil {
 		panic(err)
@@ -44,10 +50,12 @@ func main() {
 	}
 	channels := format.NumChannels
 	if *verbose {
-		fmt.Println("Channels:", channels)
-		fmt.Println("Sample rate:", format.SampleRate, "Hz")
+		fmt.Println("WAVE format:")
+		fmt.Println("    Channels:", channels)
+		fmt.Println("    Sample rate:", format.SampleRate, "Hz")
 	}
 
+	fmt.Print("Converting...")
 	for {
 		// Reading samples
 		samples, err := reader.ReadSamples()
@@ -76,4 +84,6 @@ func main() {
 			}
 		}
 	}
+
+	fmt.Println("done")
 }
