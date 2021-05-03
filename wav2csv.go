@@ -14,6 +14,7 @@ func main() {
 	// Command line flags
 	inPath := flag.String("in", "", "wav file to read")
 	outPath := flag.String("out", "out.csv", "csv output file")
+	verbose := flag.Bool("verbose", false, "verbose output")
 	flag.Parse()
 
 	// Validate input path
@@ -42,6 +43,10 @@ func main() {
 		panic(err)
 	}
 	channels := format.NumChannels
+	if *verbose {
+		fmt.Println("Channels:", channels)
+		fmt.Println("Sample rate:", format.SampleRate, "Hz")
+	}
 
 	for {
 		// Reading samples
