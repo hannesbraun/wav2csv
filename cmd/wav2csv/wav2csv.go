@@ -4,9 +4,10 @@ import (
 	"flag"
 	"fmt"
 	"github.com/hannesbraun/wav2csv/pkg/wav2csv"
+	"strings"
 )
 
-const VERSION = "0.1.2"
+const VERSION = "0.2.0"
 
 func main() {
 	fmt.Println("wav2csv", VERSION)
@@ -19,5 +20,10 @@ func main() {
 	verbose := flag.Bool("verbose", false, "verbose output")
 	flag.Parse()
 
-	wav2csv.Wav2Csv(*inPath, *verbose, *outPath)
+	// Validate input path
+	if len(strings.TrimSpace(*inPath)) == 0 {
+		panic("Please specify an input file")
+	}
+
+	wav2csv.Wav2Csv(*inPath, *outPath, *verbose)
 }

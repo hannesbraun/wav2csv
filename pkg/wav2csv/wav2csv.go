@@ -6,15 +6,9 @@ import (
 	"github.com/youpy/go-wav"
 	"io"
 	"os"
-	"strings"
 )
 
-func Wav2Csv(inPath string, verbose bool, outPath string) {
-	// Validate input path
-	if len(strings.TrimSpace(inPath)) == 0 {
-		panic("Please specify an input file")
-	}
-
+func Wav2Csv(inPath, outPath string, verbose bool) {
 	// Wav file reader
 	if verbose {
 		fmt.Println("Input file:", inPath)
