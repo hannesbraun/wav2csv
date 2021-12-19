@@ -1,8 +1,7 @@
-package main
+package wav2csv
 
 import (
 	"bufio"
-	"flag"
 	"fmt"
 	"github.com/youpy/go-wav"
 	"io"
@@ -10,29 +9,17 @@ import (
 	"strings"
 )
 
-const VERSION = "0.1.2"
-
-func main() {
-	fmt.Println("wav2csv", VERSION)
-	fmt.Println("Copyright (c) 2021, Hannes Braun")
-	fmt.Println()
-
-	// Command line flags
-	inPath := flag.String("in", "", "wav file to read")
-	outPath := flag.String("out", "out.csv", "csv output file")
-	verbose := flag.Bool("verbose", false, "verbose output")
-	flag.Parse()
-
+func Wav2Csv(inPath string, verbose bool, outPath string) {
 	// Validate input path
-	if len(strings.TrimSpace(*inPath)) == 0 {
+	if len(strings.TrimSpace(inPath)) == 0 {
 		panic("Please specify an input file")
 	}
 
 	// Wav file reader
-	if *verbose {
-		fmt.Println("Input file:", *inPath)
+	if verbose {
+		fmt.Println("Input file:", inPath)
 	}
-	in, err := os.Open(*inPath)
+	in, err := os.Open(inPath)
 	if err != nil {
 		panic(err)
 	}
@@ -40,10 +27,10 @@ func main() {
 	reader := wav.NewReader(in)
 
 	// Buffered csv output
-	if *verbose {
-		fmt.Println("Output file:", *outPath)
+	if verbose {
+		fmt.Println("Output file:", outPath)
 	}
-	out, err := os.Create(*outPath)
+	out, err := os.Create(outPath)
 	if err != nil {
 		panic(err)
 	}
@@ -55,7 +42,7 @@ func main() {
 		panic(err)
 	}
 	channels := format.NumChannels
-	if *verbose {
+	if verbose {
 		fmt.Println("WAVE format:")
 		fmt.Println("    Channels:", channels)
 		fmt.Println("    Sample rate:", format.SampleRate, "Hz")

@@ -1,5 +1,6 @@
 .DS_Store
 .idea/
 *.csv
-dist/
-wav2csv
+*.wav
+/dist
+/wav2csv
