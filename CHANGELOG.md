@@ -1,3 +1,6 @@
+# 0.2.0
+* New: csv2wav tool
+* New: a basic README is now available
 # 0.1.2
 * New: verbose flag
 # 0.1.1
