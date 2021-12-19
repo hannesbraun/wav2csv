@@ -4,3 +4,4 @@
 *.wav
 /dist
 /wav2csv
+/csv2wav
