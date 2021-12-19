@@ -80,8 +80,8 @@ func Csv2Wav(config Config) {
 			panic(err)
 		}
 	}(out)
-	bufout := bufio.NewWriter(out)
-	writer := wav.NewWriter(bufout, uint32(len(samples)), 1, uint32(config.SamplingRate), config.BitDepth)
+	bufOut := bufio.NewWriter(out)
+	writer := wav.NewWriter(bufOut, uint32(len(samples)), 1, uint32(config.SamplingRate), config.BitDepth)
 	err = writer.WriteSamples(samples)
 	if err != nil {
 		panic(err)

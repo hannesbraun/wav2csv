@@ -30,7 +30,7 @@ func Wav2Csv(inPath, outPath string, verbose bool) {
 	if verbose {
 		fmt.Println("Output file:", outPath)
 	}
-	
+
 	out, err := os.Create(outPath)
 	if err != nil {
 		panic(err)
@@ -41,7 +41,7 @@ func Wav2Csv(inPath, outPath string, verbose bool) {
 			panic(err)
 		}
 	}(out)
-	bufout := bufio.NewWriter(out)
+	bufOut := bufio.NewWriter(out)
 
 	format, err := reader.Format()
 	if err != nil {
@@ -77,7 +77,7 @@ func Wav2Csv(inPath, outPath string, verbose bool) {
 			row += "\n"
 
 			// Write row to file
-			_, err := bufout.WriteString(row)
+			_, err := bufOut.WriteString(row)
 			if err != nil {
 				panic(err)
 			}
