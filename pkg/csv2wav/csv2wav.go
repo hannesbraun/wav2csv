@@ -16,11 +16,17 @@ func Csv2Wav(config Config) {
 	if config.Verbose {
 		fmt.Println("Input file:", config.InPath)
 	}
+
 	in, err := os.Open(config.InPath)
 	if err != nil {
 		panic(err)
 	}
-	defer in.Close()
+	defer func(in *os.File) {
+		err := in.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(in)
 	scanner := bufio.NewScanner(in)
 
 	// Calculate amplification and offset
@@ -53,7 +59,7 @@ func Csv2Wav(config Config) {
 		sample1 *= amp
 		sample2 *= amp
 
-		samples = append(samples, wav.Sample{[2]int{int(sample1), int(sample2)}})
+		samples = append(samples, wav.Sample{Values: [2]int{int(sample1), int(sample2)}})
 	}
 
 	if err := scanner.Err(); err != nil {
@@ -68,10 +74,18 @@ func Csv2Wav(config Config) {
 	if err != nil {
 		panic(err)
 	}
-	defer out.Close()
+	defer func(out *os.File) {
+		err := out.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(out)
 	bufout := bufio.NewWriter(out)
 	writer := wav.NewWriter(bufout, uint32(len(samples)), 1, uint32(config.SamplingRate), config.BitDepth)
-	writer.WriteSamples(samples)
+	err = writer.WriteSamples(samples)
+	if err != nil {
+		panic(err)
+	}
 
 	fmt.Println("done")
 }

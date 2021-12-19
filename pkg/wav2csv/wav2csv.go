@@ -13,22 +13,34 @@ func Wav2Csv(inPath, outPath string, verbose bool) {
 	if verbose {
 		fmt.Println("Input file:", inPath)
 	}
+
 	in, err := os.Open(inPath)
 	if err != nil {
 		panic(err)
 	}
-	defer in.Close()
+	defer func(in *os.File) {
+		err := in.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(in)
 	reader := wav.NewReader(in)
 
 	// Buffered csv output
 	if verbose {
 		fmt.Println("Output file:", outPath)
 	}
+	
 	out, err := os.Create(outPath)
 	if err != nil {
 		panic(err)
 	}
-	defer out.Close()
+	defer func(out *os.File) {
+		err := out.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(out)
 	bufout := bufio.NewWriter(out)
 
 	format, err := reader.Format()
